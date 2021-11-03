@@ -1,0 +1,16 @@
+{
+	"compilerOptions": {
+		"target": "es5",
+		"module": "commonjs",
+		"allowJs": false,
+		"checkJs": false,
+		"outDir": "./dist",
+		"rootDir": "./",
+		"strict": true,
+		"declaration": true,
+		"esModuleInterop":false,
+		"skipLibCheck": true,
+		"forceConsistentCasingInFileNames": true,
+		"downlevelIteration": true
+	}
+}

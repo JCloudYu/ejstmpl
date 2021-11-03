@@ -1,0 +1,36 @@
+{
+	"name": "ejstmpl",
+	"version": "0.9.0",
+	"description": "A tiny template system based on EJS templating library",
+	"main": "dist/ejstmpl.js",
+	"scripts": {
+		"prebuild": "rm -rf dist",
+		"build": "tsc",
+		"postbuild": "rm -rf dist/tests/test.d.ts && copyfiles -V \"./tests/**/*.html\" ./dist",
+		"pretest": "npm run build",
+		"test": "node dist/tests/test.js"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/JCloudYu/ejstpl.git"
+	},
+	"keywords": [
+		"Templating",
+		"EJS",
+		"ESJTpl"
+	],
+	"author": "JCloudYu",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/JCloudYu/ejstpl/issues"
+	},
+	"homepage": "https://github.com/JCloudYu/ejstpl#readme",
+	"devDependencies": {
+		"@types/ejs": "^3.1.0",
+		"@types/node": "^16.11.6",
+		"copyfiles": "^2.4.1"
+	},
+	"dependencies": {
+		"ejs": "^3.1.6"
+	}
+}
