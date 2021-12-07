@@ -1,4 +1,15 @@
 "use strict";
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
 var __values = (this && this.__values) || function(o) {
     var s = typeof Symbol === "function" && Symbol.iterator, m = s && o[s], i = 0;
     if (m) return m.call(o);
@@ -29,7 +40,7 @@ var __read = (this && this.__read) || function (o, n) {
 var path = require("path");
 var fs = require("fs");
 var ejs = require("ejs");
-var Runtime = { search_root: '' };
+var Runtime = { search_root: '', globals: {} };
 var RenderUnitPrivates = new WeakMap();
 var EJSTmplPrivates = new WeakMap();
 var RenderUnit = /** @class */ (function () {
@@ -118,6 +129,11 @@ var EJSTmpl = /** @class */ (function () {
         enumerable: false,
         configurable: true
     });
+    Object.defineProperty(EJSTmpl, "globals", {
+        get: function () { return Runtime.globals; },
+        enumerable: false,
+        configurable: true
+    });
     EJSTmpl.init = function (file_name) { return new EJSTmpl(file_name); };
     EJSTmpl.release = function () { FileCache.reset(); };
     Object.defineProperty(EJSTmpl.prototype, "file_path", {
@@ -129,10 +145,10 @@ var EJSTmpl = /** @class */ (function () {
         FileCache.delete(EJSTmplPrivates.get(this).file_path);
     };
     EJSTmpl.prototype.render = function (params) {
-        return EJSTplGetCache.call(this)(params);
+        return EJSTplGetCache.call(this)(__assign(__assign({}, Runtime.globals), params));
     };
     EJSTmpl.prototype.prepare = function (params) {
-        return new RenderUnit(EJSTplGetCache.call(this), params);
+        return new RenderUnit(EJSTplGetCache.call(this), __assign(__assign({}, Runtime.globals), params));
     };
     return EJSTmpl;
 }());

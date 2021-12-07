@@ -4,9 +4,17 @@ declare class RenderUnit {
     render(): string;
     toString(): string;
 }
+interface _EJSTmplGlobals {
+    [key: string]: any;
+}
+declare global {
+    interface EJSTmplGlobals extends _EJSTmplGlobals {
+    }
+}
 declare class EJSTmpl {
     static get search_root(): string;
     static set search_root(v: string);
+    static get globals(): EJSTmplGlobals;
     static init(file_name: string): EJSTmpl;
     static release(): void;
     constructor(file_name: string);

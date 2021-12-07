@@ -2,6 +2,8 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var EJSTmpl = require("../ejstmpl.js");
 EJSTmpl.search_root = __dirname + "/tmpl";
+EJSTmpl.globals.MSG = 'MSG_Content';
+EJSTmpl.globals.SUBMSG = 'SUBMSG_Content';
 var b = EJSTmpl.init('/b/b.html');
 var tmpl = EJSTmpl.init('/a.html');
 console.log(tmpl.render({ view: b.prepare({ MSG: "HI" }) }), "\n");

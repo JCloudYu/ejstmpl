@@ -2,7 +2,7 @@ import path = require('path');
 import fs = require('fs');
 import ejs = require('ejs');
 
-const Runtime = { search_root:'' };
+const Runtime = { search_root:'', globals:{} };
 const RenderUnitPrivates = new WeakMap<RenderUnit, RenderUnitPrivate>();
 const EJSTmplPrivates = new WeakMap<EJSTmpl, EJSTmplPrivate>();
 class RenderUnit {
@@ -62,9 +62,16 @@ class FileCache {
 };
 ejs.cache = FileCache;
 
+interface _EJSTmplGlobals { [key:string]:any; }
+declare global {
+	interface EJSTmplGlobals extends _EJSTmplGlobals {}
+}
+
+
 class EJSTmpl {
 	static get search_root():string { return Runtime.search_root; }
 	static set search_root(v:string) { Runtime.search_root = '' + v; }
+	static get globals():EJSTmplGlobals { return Runtime.globals as EJSTmplGlobals; }
 	static init(file_name:string):EJSTmpl { return new EJSTmpl(file_name); }
 	static release() { FileCache.reset(); }
 	
@@ -87,11 +94,11 @@ class EJSTmpl {
 	}
 
 	render(params:AnyObject) {
-		return EJSTplGetCache.call(this)(params);
+		return EJSTplGetCache.call(this)({...Runtime.globals, ...params});
 	}
 	
 	prepare(params:AnyObject) {
-		return new RenderUnit(EJSTplGetCache.call(this), params);
+		return new RenderUnit(EJSTplGetCache.call(this), {...Runtime.globals, ...params});
 	}
 }
 function EJSTplGetCache(this:EJSTmpl):ejs.TemplateFunction {

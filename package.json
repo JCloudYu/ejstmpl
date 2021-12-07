@@ -1,6 +1,6 @@
 {
 	"name": "ejstmpl",
-	"version": "0.9.0",
+	"version": "0.9.1",
 	"description": "A tiny template system based on EJS templating library",
 	"main": "dist/ejstmpl.js",
 	"scripts": {
